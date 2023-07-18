@@ -46,10 +46,11 @@ def init_service() -> None:
 init_service()
 
 
-@app.post("/annotation_request/fileset")
+@app.post("/annotation_request/fileset", status_code=201)
 def create_annotation_request_fileset(
     request: AnnotationRequestFileSetDTO,
 ) -> Dict[str, Union[str, AnnotationRequestFileSetDTO]]:
+    # FIXME outsource context creation to another module
     if not request.external_project_id or not request.fileset:
         raise HTTPException(status_code=422, detail="Missing mandatory attributes")
 
@@ -78,5 +79,5 @@ def create_annotation_request_fileset(
 
 
 @app.get("/")
-def read_root() -> Dict[str, str]:
+def read_root() -> dict[str, str]:
     return {"message": "Welcome to the Annotation Tool API"}
